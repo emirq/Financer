@@ -1,0 +1,11 @@
+#welcomeLabel {
+    -fx-font-size: 25px;
+}
+
+#goButton {
+    -fx-background-color: #333;
+    -fx-text-alignment: center;
+    -fx-padding: 10px 0;
+    -fx-text-fill: #ffffff;
+    -fx-min-width: 100px;
+}
