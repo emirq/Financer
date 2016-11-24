@@ -5,3 +5,5 @@
 # But not these files...
 !.gitignore
 !/src/
+!LICENSE
+!README.md
