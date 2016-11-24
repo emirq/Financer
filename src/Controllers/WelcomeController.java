@@ -37,6 +37,7 @@ public class WelcomeController extends Application {
     private void goButtonClicked(ActionEvent event) {
         if (event.getSource() == goButton) {
             System.out.println("jeste to je taj button");
+            System.out.println("jest al k");
         }
     }
 }
