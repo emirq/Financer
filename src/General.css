@@ -1,5 +1,5 @@
 #welcomeLabel {
-    -fx-font-size: 25px;
+    -fx-font-size: 30px;
 }
 
 #goButton {
@@ -8,4 +8,8 @@
     -fx-padding: 10px 0;
     -fx-text-fill: #ffffff;
     -fx-min-width: 100px;
+}
+
+#goButton:hover {
+    -fx-background-color: #444;
 }
