@@ -18,6 +18,8 @@ public class WelcomeController extends Application {
     private ViewLoader viewLoader;
     public Label welcomeLabel;
     public Button goButton;
+    private Stage stage;
+    private Scene welcomeScene, dashboardScene;
 
     public static void main(String[] args) {
         launch(args);
@@ -25,19 +27,26 @@ public class WelcomeController extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        stage = primaryStage;
         viewLoader = new ViewLoader("welcome");
         Parent welcome = viewLoader.load();
 
-        primaryStage.setTitle("Welcome to Financer");
-        primaryStage.setScene(new Scene(welcome, 600, 400));
-        primaryStage.show();
+        stage.setTitle("Welcome to Financer");
+
+        welcomeScene = new Scene(welcome, 600, 400);
+        stage.setScene(welcomeScene);
+        stage.show();
     }
 
     @FXML
-    private void goButtonClicked(ActionEvent event) {
+    private void goButtonClicked(ActionEvent event) throws Exception {
         if (event.getSource() == goButton) {
-            System.out.println("jeste to je taj button");
-            System.out.println("jest al k");
+            viewLoader = new ViewLoader("dashboard");
+            Parent dashboard = viewLoader.load();
+
+            dashboardScene = new Scene(dashboard, 600, 400);
+            stage.setScene(dashboardScene);
+            stage.show();
         }
     }
 }

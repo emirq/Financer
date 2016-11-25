@@ -11,10 +11,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../General.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" fx:controller="Controllers.WelcomeController" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../General.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button id="goButton" layoutX="221.0" layoutY="327.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="159.0" text="GO" textAlignment="CENTER" textFill="#f8f8f8">
+      <Button id="goButton" fx:id="goButton" layoutX="221.0" layoutY="327.0" mnemonicParsing="false" onAction="#goButtonClicked" prefHeight="44.0" prefWidth="159.0" text="GO" textAlignment="CENTER" textFill="#f8f8f8">
          <font>
             <Font size="19.0" />
          </font>
