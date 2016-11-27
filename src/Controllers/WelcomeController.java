@@ -1,11 +1,9 @@
 package Controllers;
 
 import Helpers.ViewLoader;
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -50,14 +48,6 @@ public class WelcomeController extends Application {
         Stage dashboardStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         dashboardStage.setScene(dashboardScene);
         dashboardStage.show();
-       /* if (event.getSource() == goButton) {
-            viewLoader = new ViewLoader("dashboard");
-            Parent dashboard = viewLoader.load();
-
-            dashboardScene = new Scene(dashboard, 600, 400);
-            stage.setScene(dashboardScene);
-            stage.show();
-        }*/
     }
 }
 
