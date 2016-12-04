@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -27,5 +30,29 @@
           </Menu>
         </menus>
       </MenuBar>
+      <Separator layoutX="25.0" layoutY="88.0" prefHeight="0.0" prefWidth="551.0" />
+      <ImageView fitHeight="42.0" fitWidth="46.0" layoutX="25.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/wallet.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="84.0" layoutY="51.0" text="Balance:" />
+      <Label fx:id="balanceAmount" layoutX="144.0" layoutY="47.0" text="0.00">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="42.0" fitWidth="52.0" layoutX="246.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/card.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="301.0" layoutY="52.0" text="Bank account:" />
+      <Label fx:id="bankAmount" layoutX="395.0" layoutY="48.0" text="0.00">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="transactionButton" defaultButton="true" focusTraversable="false" layoutX="485.0" layoutY="46.0" mnemonicParsing="false" onAction="#handleTransaction" text="Transaction" textAlignment="CENTER" />
    </children>
 </Pane>
