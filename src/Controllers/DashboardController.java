@@ -44,10 +44,10 @@ public class DashboardController {
         } else if (event.getSource() == helpAbout) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("About Financer");
-            alert.setHeaderText("FINANCER beta");
+            alert.setHeaderText("");
             alert.setContentText("Developed and designed by Benjamin Fajić "
                     + "and Emir Kurtanović\n\n2016 \u00a9 All rights reserved.");
-            alert.setGraphic(new ImageView(this.getClass().getResource("icon.png").toString()));
+            alert.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
             alert.showAndWait();
         }
     }
@@ -74,7 +74,7 @@ public class DashboardController {
                 dialogIncome.setHeaderText("Please, input data of your transaction");
 
                 // Set the icon (must be included in the project).
-                //dialogIncome.setGraphic(new ImageView(this.getClass().getResource("icon.png").toString()));
+                dialogIncome.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
 
                 
 
