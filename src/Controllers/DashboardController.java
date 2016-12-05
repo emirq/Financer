@@ -1,9 +1,12 @@
 package Controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,7 +18,10 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
@@ -35,7 +41,15 @@ public class DashboardController {
     private Label bankAmount; // bank account:
     @FXML
     private Button transactionButton;
-  
+    @FXML
+    private Label amountInfo;
+    @FXML
+    private Label dateInfo;
+    @FXML
+    private Label walletBank;
+    @FXML
+    private Label descriptionInfo;
+    private String radioToggled;
 
     @FXML
     private void handleMenuItem (ActionEvent event) {
@@ -45,7 +59,7 @@ public class DashboardController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("About Financer");
             alert.setHeaderText("");
-            alert.setContentText("Developed and designed by Benjamin Fajić "
+            alert.setContentText("beta\n\nDeveloped and designed by Benjamin Fajić "
                     + "and Emir Kurtanović\n\n2016 \u00a9 All rights reserved.");
             alert.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
             alert.showAndWait();
@@ -79,10 +93,10 @@ public class DashboardController {
                 
 
                 // Set the button types.
-                ButtonType loginButtonType = new ButtonType("Confirm", ButtonData.OK_DONE);
-                dialogIncome.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+                ButtonType confirmButtonType = new ButtonType("Confirm", ButtonData.OK_DONE);
+                dialogIncome.getDialogPane().getButtonTypes().addAll(confirmButtonType, ButtonType.CANCEL);
 
-                // Create the username and password labels and fields.
+                // Create the amount and description labels and fields.
                 GridPane grid = new GridPane();
                 grid.setHgap(10);
                 grid.setVgap(10);
@@ -90,16 +104,38 @@ public class DashboardController {
                 TextField amountIncome = new TextField();
                 amountIncome.setPromptText("0.00 KM");
                 TextField descriptionIncome = new TextField();
-                descriptionIncome.setPromptText("Juice, sandwich, etc.");
+                descriptionIncome.setPromptText("Salary, pocket money..");
                 
+                final ToggleGroup group = new ToggleGroup();
+                group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+                    @Override
+                    public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
 
-                grid.add(new Label("Amount of income:"), 0, 0);
+                        if (group.getSelectedToggle() != null) {
+                            //walletBank.setText(group.getSelectedToggle().getUserData().toString());
+                        }
+
+                    }
+                });
+
+                RadioButton rb1 = new RadioButton("Wallet");
+                rb1.setUserData("Wallet");
+                rb1.setToggleGroup(group);
+                rb1.setSelected(true);
+
+                RadioButton rb2 = new RadioButton("Bank");
+                rb2.setUserData("Bank");
+                rb2.setToggleGroup(group);
+                
+                grid.add(new Label("Amount"), 0, 0);
                 grid.add(amountIncome, 1, 0);
                 grid.add(new Label("Description:"), 0, 1);
                 grid.add(descriptionIncome, 1, 1);
+                grid.add(rb1, 1,3);
+                grid.add(rb2, 1,4);
 
-                // Enable/Disable login button depending on whether a username was entered.
-                Node loginButton = dialogIncome.getDialogPane().lookupButton(loginButtonType);
+                // Enable/Disable login button depending on whether amount was entered.
+                Node loginButton = dialogIncome.getDialogPane().lookupButton(confirmButtonType);
                 loginButton.setDisable(true);
 
                 // Do some validation (using the Java 8 lambda syntax).
@@ -109,12 +145,12 @@ public class DashboardController {
 
                 dialogIncome.getDialogPane().setContent(grid);
 
-                // Request focus on the username field by default.
+                // Request focus on the amount field by default.
                 Platform.runLater(() -> amountIncome.requestFocus());
 
-                // Convert the result to a username-password-pair when the login button is clicked.
+                // Convert the result to a amount-description-pair when the confirm button is clicked.
                 dialogIncome.setResultConverter(dialogButton -> {
-                    if (dialogButton == loginButtonType) {
+                    if (dialogButton == confirmButtonType) {
                         return new Pair<>(amountIncome.getText(), descriptionIncome.getText());
                     }
                     return null;
@@ -122,26 +158,23 @@ public class DashboardController {
 
                 Optional<Pair<String, String>> resultIncome = dialogIncome.showAndWait();
 
-                resultIncome.ifPresent(usernamePassword -> {
-                    String salary = usernamePassword.getKey();
-                    balanceAmount.setText(salary);
-                    //System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+                resultIncome.ifPresent(amountAndDescription -> {
+                    String amount = amountAndDescription.getKey();
+                    String description = amountAndDescription.getValue();
+                    balanceAmount.setText(amount);
+                    amountInfo.setText(amount);
+                    descriptionInfo.setText(description);
+                    //DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    //dateInfo.setText(dateFormat.format(new Date().toString()); //2016/11/16 12:08:43
+                    dateInfo.setText(new Date().toString());
+                    walletBank.setText(group.getSelectedToggle().getUserData().toString());
                 });
                 
-                /*TextInputDialog dialogIncome = new TextInputDialog();
-                dialogIncome.setTitle("Income info");
-                dialogIncome.setHeaderText("Please, input data of your transaction");
-                //dialogIncome.setGraphic(new ImageView(this.getClass().getResource("@../images/icon.png").toString()));
-                dialogIncome.setContentText("Amount:");
-
-                // handle input
-                Optional<String> resultIncome = dialogIncome.showAndWait();
-                if (resultIncome.isPresent()){
-                    System.out.println("Your name: " + resultIncome.get());
-                }*/
             } else if (choice.equals("Expense")) {
                 
             }
         }
     }
+    
+    
 }
