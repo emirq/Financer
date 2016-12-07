@@ -8,7 +8,7 @@ import java.util.List;
  * @author benjaminfajic
  */
 public class Categories {
-    private List<String> categoriesIncome = new ArrayList<String>();
+    private List<String> categoriesIncome = new ArrayList<>();
     private List<String> categoriesExpense = new ArrayList<String>();
     private String name;
     
