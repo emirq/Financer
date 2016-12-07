@@ -33,11 +33,31 @@ public class Categories {
     }
     
     void addIncomeCategory(String newCategory) {
-        categoriesIncome.add(newCategory);
+        String tempCategory = "";
+        for(int i = 0; i < categoriesIncome.size(); i++) {
+            tempCategory = categoriesIncome.get(i);
+            if (tempCategory.equals(newCategory)) {
+                System.out.println("Ima već");
+                break;
+            } 
+        }
+        if (!tempCategory.equals(newCategory)) {
+            categoriesIncome.add(newCategory);
+        }
     }
     
     void addExpenseCategory(String newCategory) {
-        categoriesExpense.add(newCategory);
+        String tempCategory = "";
+        for(int i = 0; i < categoriesExpense.size(); i++) {
+            tempCategory = categoriesExpense.get(i);
+            if (tempCategory.equals(newCategory)) {
+                System.out.println("Ima već");
+                break;
+            } 
+        }
+        if (!tempCategory.equals(newCategory)) {
+            categoriesExpense.add(newCategory);
+        }
     }
     
     void removeIncomeCategory(String removeCategory) {

@@ -37,8 +37,6 @@ public class DashboardController {
     @FXML
     private MenuItem helpAbout;
     @FXML
-    private MenuItem editCategories;
-    @FXML
     private MenuItem addCategory;
     @FXML 
     private MenuItem removeCategory;
@@ -64,59 +62,40 @@ public class DashboardController {
     private void handleMenuItem (ActionEvent event) {
         if (event.getSource() == fileClose) {
             System.exit(0);
-        } else if (event.getSource() == editCategories) {
-            Alert categoriesInfoDialog = new Alert(Alert.AlertType.INFORMATION);
-            categoriesInfoDialog.setTitle("Categories");
-            categoriesInfoDialog.setHeaderText("Income and Expense Categories");
-            categoriesInfoDialog.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
-               
-            categoriesInfoDialog.setContentText("INCOME\n" + categories.incomeToString() 
-                  + "\n\n\nEXPENSE\n" + categories.expenseToString());
-            
-            categoriesInfoDialog.showAndWait();
         } else if (event.getSource() == addCategory) {
-            List<String> choices = new ArrayList<>();
-            choices.add("Income");
-            choices.add("Expense");
-
-            ChoiceDialog<String> dialogChoice = new ChoiceDialog<>("Income", choices);
-            dialogChoice.setTitle("Choice Dialog");
-            dialogChoice.setHeaderText("Chose wheter you want to record income or expense");
-            dialogChoice.setContentText("Choose your action:");
-
-            // get result of choice dialog
-            Optional<String> resultChoice = dialogChoice.showAndWait();
-            if (resultChoice.isPresent()){
-                String choice = resultChoice.get(); // for example, handle it like this
-                if (choice.equals("Income")) {
+            String tempMenu = chooseIncomeExpenseDialog();
             
-                    TextInputDialog dialogAdd = new TextInputDialog();
-                    dialogAdd.setTitle("Input Dialog");
-                    dialogAdd.setHeaderText("Enter name for your category");
-                    dialogAdd.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
+            if (tempMenu.equals("Income")) {
+            
+                TextInputDialog dialogAdd = new TextInputDialog();
+                dialogAdd.setTitle("Input Dialog");
+                dialogAdd.setHeaderText("Enter name for your income category");
+                dialogAdd.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
 
-                    // Traditional way to get the response value.
-                    Optional<String> result = dialogAdd.showAndWait();
-                    if (result.isPresent()){
-                        categories.addIncomeCategory(result.get());
-                    }
+                // Traditional way to get the response value.
+                Optional<String> result = dialogAdd.showAndWait();
+                if (result.isPresent()){
+                    categories.addIncomeCategory(result.get());
                 }
+                System.out.println(categories.incomeToString());
+            } else if (tempMenu.equals("Expense")){
+                TextInputDialog dialogAdd = new TextInputDialog();
+                dialogAdd.setTitle("Expense Dialog");
+                dialogAdd.setHeaderText("Enter name for your expense category");
+                dialogAdd.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
+
+                // Traditional way to get the response value.
+                Optional<String> result = dialogAdd.showAndWait();
+                if (result.isPresent()){
+                    categories.addExpenseCategory(result.get());
+                }
+                System.out.println(categories.expenseToString());
+            } else {
+                System.out.println("ništa");
             }
+            
         } else if (event.getSource() == removeCategory){ 
-            List<String> choices = new ArrayList<>();
-            choices.add("Income");
-            choices.add("Expense");
-
-            ChoiceDialog<String> dialogChoice = new ChoiceDialog<>("Income", choices);
-            dialogChoice.setTitle("Choice Dialog");
-            dialogChoice.setHeaderText("Chose wheter you want to record income or expense");
-            dialogChoice.setContentText("Choose your action:");
-
-            // get result of choice dialog
-            Optional<String> resultChoice = dialogChoice.showAndWait();
-            if (resultChoice.isPresent()){
-                String choice = resultChoice.get(); // for example, handle it like this
-                if (choice.equals("Income")) {
+                if (chooseIncomeExpenseDialog().equals("Income")) {
             
                     TextInputDialog dialogAdd = new TextInputDialog();
                     dialogAdd.setTitle("Input Dialog");
@@ -129,7 +108,7 @@ public class DashboardController {
                         categories.removeIncomeCategory(result.get());
                     }
                 }
-            }
+            
         } else if (event.getSource() == helpAbout) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("About Financer");
@@ -139,24 +118,11 @@ public class DashboardController {
             alert.setGraphic(new ImageView(this.getClass().getResource("../images/icon.png").toString()));
             alert.showAndWait();
         }
-    }
     
+    }
     @FXML
     private void handleTransaction (ActionEvent event) {
-        List<String> choices = new ArrayList<>();
-        choices.add("Income");
-        choices.add("Expense");
-
-        ChoiceDialog<String> dialogChoice = new ChoiceDialog<>("Income", choices);
-        dialogChoice.setTitle("Choice Dialog");
-        dialogChoice.setHeaderText("Chose wheter you want to record income or expense");
-        dialogChoice.setContentText("Choose your action:");
-
-        // get result of choice dialog
-        Optional<String> resultChoice = dialogChoice.showAndWait();
-        if (resultChoice.isPresent()){
-            String choice = resultChoice.get(); // for example, handle it like this
-            if (choice.equals("Income")) {
+            if (chooseIncomeExpenseDialog().equals("Income")) {
                 // Create the custom dialog.
                 Dialog<Pair<String, String>> dialogIncome = new Dialog<>();
                 dialogIncome.setTitle("Income Dialog");
@@ -245,11 +211,30 @@ public class DashboardController {
                     walletBank.setText(group.getSelectedToggle().getUserData().toString());
                 });
                 
-            } else if (choice.equals("Expense")) {
+            } else if (chooseIncomeExpenseDialog().equals("Expense")) {
                 
-            }
+            
         }
     }
     
+    private String chooseIncomeExpenseDialog() {            
+        List<String> choices = new ArrayList<>();
+        String choice = "";
+        choices.add("Income");
+        choices.add("Expense");
+
+        ChoiceDialog<String> dialogChoice = new ChoiceDialog<>("", choices);
+        dialogChoice.setTitle("Choice Dialog");
+        dialogChoice.setHeaderText("Chose wheter you want to record income or expense");
+        dialogChoice.setContentText("Choose your action:");
+
+        // get result of choice dialog
+        Optional<String> resultChoice = dialogChoice.showAndWait();
+        if (resultChoice.isPresent()){
+            choice = resultChoice.get(); // for example, handle it like this
+        }
+        
+        return choice;
+    }
     
 }
